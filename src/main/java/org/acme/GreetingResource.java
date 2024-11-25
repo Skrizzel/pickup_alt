@@ -1,5 +1,6 @@
 package org.acme;
 
+import io.quarkus.logging.Log;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -21,13 +22,21 @@ public class GreetingResource {
     @Produces(MediaType.APPLICATION_JSON)
     @GET
     public Map<String, Object> routes() {
-        // Construct the ApiResponse object
+        try {
+            Settings.load("config.ini");
+        } catch (Exception e){
+
+        }
+
+        Log.debug("Debuuuuuuuuuuuuuuuuuuuuuuug");
+        
+        Pickup pu = new Pickup();
         Routes rt = new Routes();
         Map<String, Object> response = new HashMap<>();
 
         response.put("code", 200);
         response.put("message", "Success");
-        response.put("apiKey", rt.APIKey());
+        response.put("apiKey", Settings.getProperty("APIKey"));
 
         return response;
     }

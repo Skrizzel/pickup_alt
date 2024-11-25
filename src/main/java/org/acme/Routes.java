@@ -7,7 +7,6 @@ public class Routes {
     public Routes (){
         prefs = Preferences.userNodeForPackage(Routes.class);
         prefs.put("APIKey", "XXXXXXXabcde");
-        System.out.println(prefs.get("APIKey", "def"));
     }
 
     public String APIKey(){
