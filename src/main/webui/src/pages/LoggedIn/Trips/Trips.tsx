@@ -59,7 +59,7 @@ const Trips = () => {
     <>
       <ToTopLayout>
         <div id="trips">
-          <SearchBar></SearchBar>
+          <SearchBar placeholder="Faht suchen"></SearchBar>
           {users.isLoading ? (
             <LoadingCircle />
           ) : users.isError ? (
@@ -96,9 +96,11 @@ const Trips = () => {
       </ToTopLayout>
       <ToBottomLayout>
         <div style={{position: 'fixed', bottom: '70px', right: '24px', zIndex: '999'}}>
-          <Button variant="contained" sx={{borderRadius: '50px'}}>
-            Fahrt erstellen
-          </Button>
+          <Link to="newTrip">
+            <Button variant="contained" sx={{borderRadius: '50px'}}>
+              Fahrt erstellen
+            </Button>
+          </Link>
         </div>
       </ToBottomLayout>
     </>
