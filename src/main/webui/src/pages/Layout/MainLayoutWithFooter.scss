@@ -1,0 +1,8 @@
+main {
+    scrollbar-width: none;
+    padding: 1rem;
+}
+
+main::-webkit-scrollbar {
+    display: none;
+}
