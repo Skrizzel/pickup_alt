@@ -4,10 +4,37 @@ import Map, {Source, Layer} from 'react-map-gl/maplibre';
 import {routeGeoJson} from './testGeoData';
 import {useLoaderData} from 'react-router-dom';
 import {TestUserType} from '../Trips';
+// import maplibregl from 'maplibre-gl';
 
 const Trip = () => {
   // Create GeoJSON data for the route
   const user = useLoaderData() as TestUserType;
+
+  // const map = new maplibregl.Map({
+  //   container: 'map',
+  //   style: {
+  //     version: 8,
+  //     sources: {
+  //       'raster-tiles': {
+  //         type: 'raster',
+  //         tiles: [
+  //           'http://10.1.0.20:8080/tiles/{z}/{x}/{y}.png', // Use the URL of your OSM tile server
+  //         ],
+  //         tileSize: 256, // Standard tile size for PNG
+  //       },
+  //     },
+  //     layers: [
+  //       {
+  //         id: 'raster-layer',
+  //         type: 'raster',
+  //         source: 'raster-tiles',
+  //         paint: {},
+  //       },
+  //     ],
+  //   },
+  //   center: [0, 0], // Initial map center coordinates
+  //   zoom: 2, // Initial zoom level
+  // });
 
   return (
     <ToTopLayout>
@@ -20,8 +47,28 @@ const Trip = () => {
           zoom: 15,
         }}
         style={{width: '100%', aspectRatio: '3/2', alignSelf: 'center', marginTop: '1rem'}}
-        mapStyle="https://tiles.openfreemap.org/styles/liberty"
+        mapStyle={{
+          version: 8,
+          sources: {
+            'raster-tiles': {
+              type: 'raster',
+              tiles: [
+                'http://10.1.0.20:8080/tiles/{z}/{x}/{y}.png', // Use the URL of your OSM tile server
+              ],
+              tileSize: 256, // Standard tile size for PNG
+            },
+          },
+          layers: [
+            {
+              id: 'raster-layer',
+              type: 'raster',
+              source: 'raster-tiles',
+              paint: {},
+            },
+          ],
+        }}
       >
+        {/* <div id="map"></div> */}
         <Source id="route" type="geojson" data={routeGeoJson}>
           <Layer
             id="route-line"
