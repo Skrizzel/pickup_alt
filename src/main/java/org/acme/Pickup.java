@@ -4,19 +4,18 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+
+import java.util.Scanner;
+
 //
 @Path("/Pickup")
 class Pickup {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String helloHello() {
-        return "Hello from Quarkus REST";
+        String text = "Hello quarkusDev World";
+        return text;
     }
-//    @GET
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public String helloPickup() {
-//        return "Hello Pickup World";
-    }
-//    public static void main(String[] args){system.out.println("Hello World.");}
-//}
+}
+
 
