@@ -31,7 +31,7 @@ public class GreetingResource {
         Log.debug("Debuuuuuuuuuuuuuuuuuuuuuuug");
         
         Pickup pu = new Pickup();
-        Routes rt = new Routes();
+        Route rt = new Route();
         Map<String, Object> response = new HashMap<>();
 
         response.put("code", 200);
