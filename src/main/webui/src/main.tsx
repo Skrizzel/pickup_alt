@@ -25,6 +25,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import Trip from './pages/LoggedIn/Trips/Trip/Trip.tsx';
 import {testUsersData} from './shared/testUsersData.ts';
 import NewTrip from './pages/LoggedIn/NewTrip/NewTrip.tsx';
+import TripSearchBar from './pages/LoggedIn/Trips/TripSearchBar.tsx';
 // import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 
 const router = createBrowserRouter([
@@ -42,12 +43,16 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'trips',
-
+            element: <TripSearchBar></TripSearchBar>,
             children: [
-              {index: true, element: <Trips></Trips>},
+              {index: true, element: <Trips />},
               {
                 path: 'newTrip',
                 element: <NewTrip />,
+              },
+              {
+                path: 'search',
+                element: <Search />,
               },
             ],
           },

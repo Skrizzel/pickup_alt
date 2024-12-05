@@ -5,23 +5,19 @@ import SearchIcon from '@mui/icons-material/Search';
 
 type SearchProps = {
   placeholder: string;
+  readOnly?: boolean;
 };
 
 export default function Searchbar(props: SearchProps) {
   return (
     <Paper
-      component="form"
       sx={{
         p: '2px 4px',
         display: 'flex',
         alignItems: 'center',
       }}
     >
-      <InputBase
-        sx={{ml: 1, flex: 1}}
-        placeholder={props.placeholder}
-        // inputProps={{'aria-label': 'search google maps'}}
-      />
+      <InputBase sx={{ml: 1, flex: 1}} placeholder={props.placeholder} readOnly={props.readOnly || false} />
       <IconButton type="button" sx={{p: '10px'}} aria-label="search">
         <SearchIcon />
       </IconButton>

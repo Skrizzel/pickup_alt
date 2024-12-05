@@ -1,5 +1,11 @@
+import ToTopLayout from '../../Layout/ToTopLayout';
+
 const Search = () => {
-    return <div>Search</div>;
+  return (
+    <ToTopLayout>
+      <div>Search</div>
+    </ToTopLayout>
+  );
 };
 
 export default Search;

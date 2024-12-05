@@ -53,7 +53,7 @@ const Trip = () => {
             'raster-tiles': {
               type: 'raster',
               tiles: [
-                'http://10.1.0.20:8080/tiles/{z}/{x}/{y}.png', // Use the URL of your OSM tile server
+                'http://10.1.0.20:8080/tile/{z}/{x}/{y}.png', // Use the URL of your OSM tile server
               ],
               tileSize: 256, // Standard tile size for PNG
             },

@@ -1,8 +1,6 @@
 import Paper from '@mui/material/Paper';
 import './Trips.scss';
 import {Button, Divider, List, ListItem} from '@mui/material';
-import SearchBar from '../../../components/SearchBar/SearchBar';
-import ToBottomLayout from '../../Layout/ToBottomLayout';
 import ToTopLayout from '../../Layout/ToTopLayout';
 // import {useEffect, useState} from 'react';
 import LoadingCircle from '../../../components/Loading/LoadingCircle';
@@ -59,7 +57,6 @@ const Trips = () => {
     <>
       <ToTopLayout>
         <div id="trips">
-          <SearchBar placeholder="Faht suchen"></SearchBar>
           {users.isLoading ? (
             <LoadingCircle />
           ) : users.isError ? (
@@ -72,7 +69,7 @@ const Trips = () => {
                     testListTrips.push({date: getRandomDate(), from: user.address.city, to: user.address.street, nameOfDriver: user.name});
                     return (
                       <div key={index}>
-                        <Link to={'/user/trip/' + user.id} style={{color: 'inherit', textDecoration: 'inherit'}}>
+                        <Link to={'/user/trip/' + user.id}>
                           <ListItem
                             sx={{
                               display: 'flex',
@@ -94,15 +91,13 @@ const Trips = () => {
           )}
         </div>
       </ToTopLayout>
-      <ToBottomLayout>
-        <div style={{position: 'fixed', bottom: '70px', right: '24px', zIndex: '999'}}>
-          <Link to="newTrip">
-            <Button variant="contained" sx={{borderRadius: '50px'}}>
-              Fahrt erstellen
-            </Button>
-          </Link>
-        </div>
-      </ToBottomLayout>
+      <div style={{position: 'fixed', bottom: '70px', right: '24px', zIndex: '999'}}>
+        <Link to="newTrip">
+          <Button variant="contained" sx={{borderRadius: '50px'}}>
+            Fahrt erstellen
+          </Button>
+        </Link>
+      </div>
     </>
   );
 };
