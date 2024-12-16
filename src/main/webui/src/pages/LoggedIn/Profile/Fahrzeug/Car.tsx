@@ -1,29 +1,27 @@
-import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
-import ToTopLayout from '../../Layout/ToTopLayout';
+import ToTopLayout from '../../../Layout/ToTopLayout';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
 import Container from '@mui/material/Container';
-import {listItemStyle, styleForListItemContainer} from '../../../shared/styles';
+import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
-import {IconButton} from '@mui/material';
-import {NavLink} from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import {listItemStyle, styleForListItemContainer} from '../../../../shared/styles';
+import {useState} from 'react';
 
-const Profile = () => {
-  const tesSettings = {
-    Nutzername: 'Max Mustermann',
-    'E-mail': 'Max.Mustermann@bube.com',
-    Passwort: '********',
-    Fahrzeug: 'Subaru Legacy',
+const Car = () => {
+  const newAutoData = {
+    Auto: 'Subaru Etwas',
+    Kennzeichen: '',
+    Beschreibung: '',
+    Basispreis: '',
+    Kilometerpreis: '',
   };
-
   const sizeOfAvatar = '100px';
 
   // State to track the editable status for each field
   const [editStatus, setEditStatus] = useState(
-    Object.keys(tesSettings).reduce((acc: Record<string, boolean>, key) => {
+    Object.keys(newAutoData).reduce((acc: Record<string, boolean>, key) => {
       acc[key] = true; // Initially, all fields are disabled
       return acc;
     }, {})
@@ -42,7 +40,7 @@ const Profile = () => {
         <Avatar sx={{height: sizeOfAvatar, width: sizeOfAvatar}}>Me</Avatar>
       </div>
       <List sx={{paddingTop: '0px', marginTop: '1rem'}}>
-        {Object.entries(tesSettings).map(([key, val], index) => (
+        {Object.entries(newAutoData).map(([key, val], index) => (
           <Container sx={styleForListItemContainer} key={index}>
             <ListItem sx={listItemStyle}>
               <TextField
@@ -58,17 +56,8 @@ const Profile = () => {
             </IconButton>
           </Container>
         ))}
-        <Container sx={styleForListItemContainer}>
-          <ListItem sx={listItemStyle}>
-            <p>Fahrzeug hinzufügen</p>
-          </ListItem>
-          <NavLink to={'/user/car'}>
-            <AddIcon sx={{display: 'flex', alignSelf: 'center'}} />
-          </NavLink>
-        </Container>
       </List>
     </ToTopLayout>
   );
 };
-
-export default Profile;
+export default Car;

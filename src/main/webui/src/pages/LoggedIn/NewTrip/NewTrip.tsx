@@ -28,6 +28,8 @@ const NewTrip = () => {
     setCar(event.target.value as string);
   };
 
+  const autos = ['Audi'];
+
   return (
     <>
       <ToTopLayout>
@@ -42,8 +44,8 @@ const NewTrip = () => {
               </Box>
               <Switch />
             </Box>
-            {['Täglich', 'Wöchentlich', 'Montlich'].map((element) => (
-              <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+            {['Täglich', 'Wöchentlich', 'Montlich'].map((element, index) => (
+              <Box key={index} sx={{display: 'flex', justifyContent: 'space-between'}}>
                 {element}
                 <Checkbox />
               </Box>
@@ -54,8 +56,10 @@ const NewTrip = () => {
           <FormControl fullWidth>
             <InputLabel id="car-select-label">Fahrzeug</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select" value={car} label="Age" onChange={handleChange}>
-              {['Audi'].map((car) => (
-                <MenuItem value={car}>{car}</MenuItem>
+              {autos.map((car, index) => (
+                <MenuItem key={index} value={car}>
+                  {car}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

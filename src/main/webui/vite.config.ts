@@ -4,9 +4,6 @@ import {VitePWA} from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    headers: {'Access-Control-Allow-Origin': '*'},
-  },
   plugins: [
     react(),
     VitePWA({

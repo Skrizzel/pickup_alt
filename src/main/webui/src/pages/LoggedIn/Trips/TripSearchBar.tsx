@@ -8,14 +8,18 @@ const TripSearchBar = () => {
 
   return (
     <>
-      <Box sx={{marginBottom: '1rem'}}>
-        <Link to="search">
-          <SearchBar
-            placeholder={isCurrentLocationTrips ? 'Fahrt suchen' : 'Startadresse'}
-            readOnly={isCurrentLocationTrips ? true : false}
-          ></SearchBar>
-        </Link>
-      </Box>
+      {location !== 'newTrip' && (
+        <Box sx={{marginBottom: '1rem'}}>
+          <Link to="search">
+            <SearchBar
+              placeholder={isCurrentLocationTrips ? 'Fahrt suchen' : 'Startadresse'}
+              readOnly={isCurrentLocationTrips ? true : false}
+              //TODO: reset value on trips
+              value={isCurrentLocationTrips ? '' : undefined}
+            />
+          </Link>
+        </Box>
+      )}
       <Outlet />
     </>
   );

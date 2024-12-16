@@ -52,7 +52,6 @@ const Trips = () => {
           throw new Error(e);
         }),
   });
-
   return (
     <>
       <ToTopLayout>

@@ -5,7 +5,6 @@ import {ThemeProvider, createTheme} from '@mui/material/styles';
 import './index.scss';
 import {LocalizationProvider} from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -26,6 +25,7 @@ import Trip from './pages/LoggedIn/Trips/Trip/Trip.tsx';
 import {testUsersData} from './shared/testUsersData.ts';
 import NewTrip from './pages/LoggedIn/NewTrip/NewTrip.tsx';
 import TripSearchBar from './pages/LoggedIn/Trips/TripSearchBar.tsx';
+import Car from './pages/LoggedIn/Profile/Fahrzeug/Car.tsx';
 // import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 
 const router = createBrowserRouter([
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'trips',
-            element: <TripSearchBar></TripSearchBar>,
+            element: <TripSearchBar />,
             children: [
               {index: true, element: <Trips />},
               {
@@ -66,6 +66,7 @@ const router = createBrowserRouter([
               return testUsersData.find((user) => String(user.id) === params.id);
             },
           },
+          {path: 'car', element: <Car />},
         ],
       },
       {path: '*', element: <NotFound />},
