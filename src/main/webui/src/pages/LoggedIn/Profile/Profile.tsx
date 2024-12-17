@@ -60,9 +60,9 @@ const Profile = () => {
         ))}
         <Container sx={styleForListItemContainer}>
           <ListItem sx={listItemStyle}>
-            <p>Fahrzeug hinzufügen</p>
+            <p>Fahrzeug erstellen</p>
           </ListItem>
-          <NavLink to={'/user/car'}>
+          <NavLink to={'/user/car'} style={{display: 'flex'}}>
             <AddIcon sx={{display: 'flex', alignSelf: 'center'}} />
           </NavLink>
         </Container>

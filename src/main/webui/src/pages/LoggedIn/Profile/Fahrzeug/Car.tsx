@@ -9,8 +9,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import {listItemStyle, styleForListItemContainer} from '../../../../shared/styles';
 import {useState} from 'react';
 
+type CarProps = {
+  Autoname: string;
+  Kennzeichen: string;
+  Beschreibung: string;
+  Basispreis: number;
+  Kilometerpreis: number;
+};
+
 const Car = () => {
-  const newAutoData = {
+  const autoData = {
     Auto: 'Subaru Etwas',
     Kennzeichen: '',
     Beschreibung: '',
@@ -21,7 +29,7 @@ const Car = () => {
 
   // State to track the editable status for each field
   const [editStatus, setEditStatus] = useState(
-    Object.keys(newAutoData).reduce((acc: Record<string, boolean>, key) => {
+    Object.keys(autoData).reduce((acc: Record<string, boolean>, key) => {
       acc[key] = true; // Initially, all fields are disabled
       return acc;
     }, {})
@@ -40,7 +48,7 @@ const Car = () => {
         <Avatar sx={{height: sizeOfAvatar, width: sizeOfAvatar}}>Me</Avatar>
       </div>
       <List sx={{paddingTop: '0px', marginTop: '1rem'}}>
-        {Object.entries(newAutoData).map(([key, val], index) => (
+        {Object.entries(autoData).map(([key, val], index) => (
           <Container sx={styleForListItemContainer} key={index}>
             <ListItem sx={listItemStyle}>
               <TextField

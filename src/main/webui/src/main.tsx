@@ -26,6 +26,7 @@ import {testUsersData} from './shared/testUsersData.ts';
 import NewTrip from './pages/LoggedIn/NewTrip/NewTrip.tsx';
 import TripSearchBar from './pages/LoggedIn/Trips/TripSearchBar.tsx';
 import Car from './pages/LoggedIn/Profile/Fahrzeug/Car.tsx';
+import Jakob from './pages/Test/Jakob.tsx';
 // import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 
 const router = createBrowserRouter([
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
       {index: true, element: <Auth />},
       {path: 'auth', element: <Auth />},
       {path: 'login', element: <Login />},
+      {path: 'jakob', element: <Jakob />},
       {
         path: 'user',
         element: <MainLayoutWithFooter />,
