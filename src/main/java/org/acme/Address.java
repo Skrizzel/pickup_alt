@@ -1,11 +1,24 @@
 package org.acme;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import jakarta.persistence.Entity;
+
+/*
+ -- Example Body for Post --
+ post http://server:8080/address
+{
+    "street": "Meisenstraße",
+    "city": "Rotenburg",
+    "postalCode": "36199",
+    "country": "GER",
+    "houseNumber": "3"
+}
+ */
 
 
 @Entity
@@ -64,6 +77,7 @@ public class Address extends PanacheEntity {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
     public Response addAddress(Address address) {
         if (address == null || address.street == null || address.city == null) {
             return Response.status(Response.Status.BAD_REQUEST)
@@ -72,13 +86,6 @@ public class Address extends PanacheEntity {
         }
         address.persist();
         return Response.ok(address).status(Response.Status.CREATED).build();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllAddresses() {
-        List<Address> addresses = Address.listAll();
-        return Response.ok(addresses).build();
     }
 
     @DELETE
