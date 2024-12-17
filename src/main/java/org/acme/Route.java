@@ -3,9 +3,7 @@ package org.acme;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -52,7 +50,7 @@ public class Route extends PanacheEntity {
     public Route() {
     }
 
-    @Path("routes")
+    @Path("routesold")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
     public Response test() {
@@ -87,6 +85,29 @@ public class Route extends PanacheEntity {
         } catch (Exception e) {
             log.error(e.getMessage());
             return Response.status(500).entity("Fehlermeldung aus RouteTest hier übergeben").build();
+        }
+    }
+
+
+    @Produces(MediaType.APPLICATION_JSON)
+    @GET
+    @Path("/route")
+    public Response getDistance(
+            @QueryParam("startX") double startX,
+            @QueryParam("startY") double startY,
+            @QueryParam("endX") double endX,
+            @QueryParam("endY") double endY){
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpRequest request = HttpRequest.newBuilder().
+                    uri(new URI(String.format("%s/route/v1/driving/%s,%s;%s,%s?geometries=geojson", routeServer, startX, startY, endX, endY))).
+                    GET().build();
+
+            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            log.debug(response.body().toString());
+            //throw new Exception("ahhhh");
+            return Response.ok(response.body().toString()).build();
+        } catch (Exception e){
+            return Response.status(500).entity(e.getMessage()).build();
         }
     }
 }
