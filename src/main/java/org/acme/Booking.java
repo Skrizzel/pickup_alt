@@ -1,3 +1,7 @@
+// Current Task:
+// fill attributes into empty tables
+// create Get and Set Methods vor database attributes
+
 package org.acme;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -26,7 +30,6 @@ public class Booking extends PanacheEntity {
     public Booking() {}
 
     // Test function for creating a Path
-    // It is not working
     @Path("/DolleFunktionPfad")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -52,5 +55,3 @@ public class Booking extends PanacheEntity {
         return PreisJeKilometerInfoText ;
     }
 }
-
-// Aktueller Stand
