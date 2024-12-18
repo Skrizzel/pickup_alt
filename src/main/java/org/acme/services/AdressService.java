@@ -29,9 +29,9 @@ public class AdressService {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Response addAddress(Address address) {
-        if (address == null || address.getStreet() == null || address.getCity() == null) {
+        if (address == null || address.getStreet() == null || address.getCity() == null || address.getHouseNumber() == null) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("{\"error\": \"Street and city are required fields.\"}")
+                    .entity("{\"error\": \"City, Street and HouseNumber are required fields.\"}")
                     .build();
         }
         try {
