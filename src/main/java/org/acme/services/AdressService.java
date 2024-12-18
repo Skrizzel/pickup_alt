@@ -35,14 +35,6 @@ public class AdressService {
                     .build();
         }
 
-        Address existingAddress = Address.find("city = ?1 and street = ?2 and houseNumber = ?3",
-                address.getCity(), address.getStreet(), address.getHouseNumber()).firstResult();
-
-        if (existingAddress != null) {
-            // Address already exists, return it
-            return Response.ok(existingAddress).status(Response.Status.OK).build();
-        }
-
         try {
             // Build the query to the geocoding API
             String query = String.format("%s/search?q=%s&format=json&limit=1",
@@ -68,6 +60,15 @@ public class AdressService {
             } else {
                 throw new Exception();
             }
+
+            Address existingAddress = Address.find("city = ?1 and street = ?2 and houseNumber = ?3",
+                    address.getCity(), address.getStreet(), address.getHouseNumber()).firstResult();
+
+            if (existingAddress != null) {
+                return Response.ok(existingAddress).status(Response.Status.OK).build();
+            }
+
+
 
             address.persist();
 
