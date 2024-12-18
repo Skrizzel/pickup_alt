@@ -2,6 +2,8 @@ package org.acme;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
@@ -9,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Path("/Booking")
+// Problem? The following annotation?
 @Entity
 public class Booking extends PanacheEntity {
     private static final Logger log = LoggerFactory.getLogger(Booking.class);
@@ -25,12 +28,14 @@ public class Booking extends PanacheEntity {
     // Test function for creating a Path
     // It is not working
     @Path("/DolleFunktionPfad")
+    @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String DolleFunktion(){
         return "Hallo";
     }
 
     @Path("/StandardPreisInfoText")
+    @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String setBasePrice() {
         String StandardPreisInfoText = "Info: Der Standardpreis muss von jedem Mitfahrere gezahlt werden, unabhängig von der Kilometerpauschale.";
@@ -39,6 +44,7 @@ public class Booking extends PanacheEntity {
     }
 
     @Path("/PreisJeKilometerInfoText")
+    @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String setKilometerPrice(){
         String PreisJeKilometerInfoText = "Info: Der Preis je Kilometer muss von jedem Mitfahrere für die mitgefahrene Strecke gezahlt werden.";
@@ -48,4 +54,3 @@ public class Booking extends PanacheEntity {
 }
 
 // Aktueller Stand
-// Pfad für die Methoden nicht angezeigt
