@@ -16,6 +16,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
+import static io.quarkus.agroal.runtime.AgroalConnectionConfigurer.log;
+
 
 @Path("/address")
 public class AdressService {
@@ -37,7 +39,7 @@ public class AdressService {
 
         try {
             // Build the query to the geocoding API
-            String query = String.format("%s/search?q=%s&format=json&limit=1",
+            String query = String.format("%s/search?q=%s&format=json&limit=1&addressdetails=1",
                     addressServer,
                     URLEncoder.encode(address.getPostalCode() + " " + address.getCity() + " " + address.getStreet() + " " + address.getHouseNumber(), StandardCharsets.UTF_8));
 
@@ -53,22 +55,43 @@ public class AdressService {
             JsonNode rootNode = objectMapper.readTree(response.body());
 
             if (rootNode.isArray() && !rootNode.isEmpty()) {
-                JsonNode firstResult = rootNode.get(0);
+                JsonNode jsonNode = rootNode.get(0);
+                JsonNode addressNode = jsonNode.get("address");
 
-                address.setLatitude(firstResult.get("lat").asDouble());
-                address.setLongitude(firstResult.get("lon").asDouble());
+                log.error(addressNode);
+
+                //fill the object with data from API to compare to local db
+                try {
+                    //log.info("wort case: " + address.getStreet());
+                    address.setLatitude(jsonNode.get("lat").asDouble());
+                    address.setLongitude(jsonNode.get("lon").asDouble());
+                    address.setCity(addressNode.get("municipality").asText());
+                    address.setCountry(addressNode.get("country").asText());
+                    address.setStreet(addressNode.get("road").asText());
+                    address.setHouseNumber(addressNode.get("house_number").asText());
+                    address.setPostalCode(addressNode.get("postcode").asText());
+                } catch (Exception e) {
+                    log.error("could not find provided address, instead: " + addressNode);
+                    log.info("proceding with provided Address, maybe cords invalid");
+                }
             } else {
-                throw new Exception();
+                log.error("No or wrong response from Address resolver");
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .entity("{\"error\": \"No or wrong response from Address resolver.\"}")
+                        .build();
+                //throw new Exception("No Response from Address Resolver");
             }
 
             Address existingAddress = Address.find("city = ?1 and street = ?2 and houseNumber = ?3",
                     address.getCity(), address.getStreet(), address.getHouseNumber()).firstResult();
 
+
             if (existingAddress != null) {
+                ObjectMapper om = new ObjectMapper();
+
+                log.info("Found address in db:" + om.writeValueAsString(existingAddress));
                 return Response.ok(existingAddress).status(Response.Status.OK).build();
             }
-
-
 
             address.persist();
 
@@ -77,7 +100,7 @@ public class AdressService {
         } catch (Exception e) {
             //e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"error\": \"Failed to fetch coordinates.\"}")
+                    .entity("{\"error\": \"Failed to fetch coordinates.\"}" + e.getMessage())
                     .build();
         }
     }
