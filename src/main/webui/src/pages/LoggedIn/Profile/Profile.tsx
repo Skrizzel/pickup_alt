@@ -5,10 +5,11 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import Container from '@mui/material/Container';
+import CheckIcon from '@mui/icons-material/Check';
+// import Container from '@mui/material/Container';
 import {listItemStyle, styleForListItemContainer} from '../../../shared/styles';
 import TextField from '@mui/material/TextField';
-import {IconButton} from '@mui/material';
+import {Box, IconButton} from '@mui/material';
 import {NavLink} from 'react-router-dom';
 
 const Profile = () => {
@@ -38,13 +39,21 @@ const Profile = () => {
 
   return (
     <ToTopLayout>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+      <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
         <Avatar sx={{height: sizeOfAvatar, width: sizeOfAvatar}}>Me</Avatar>
-      </div>
+      </Box>
       <List sx={{paddingTop: '0px', marginTop: '1rem'}}>
         {Object.entries(tesSettings).map(([key, val], index) => (
-          <Container sx={styleForListItemContainer} key={index}>
-            <ListItem sx={listItemStyle}>
+          <Box sx={styleForListItemContainer} key={index}>
+            <ListItem
+              sx={{
+                ...listItemStyle,
+                '*, *::before, *::after': {
+                  transition: 'none !important',
+                  animation: 'none !important',
+                },
+              }}
+            >
               <TextField
                 disabled={editStatus[key]} // Control the disabled state per field
                 id={`field-${key}`}
@@ -54,18 +63,18 @@ const Profile = () => {
               />
             </ListItem>
             <IconButton onClick={() => onEdit(key)} aria-label={`edit-${key}`} sx={{padding: 0}}>
-              <EditIcon />
+              {editStatus[key] ? <EditIcon /> : <CheckIcon />}
             </IconButton>
-          </Container>
+          </Box>
         ))}
-        <Container sx={styleForListItemContainer}>
+        <Box sx={styleForListItemContainer} key={Object.keys(tesSettings).length}>
           <ListItem sx={listItemStyle}>
             <p>Fahrzeug erstellen</p>
           </ListItem>
           <NavLink to={'/user/car'} style={{display: 'flex'}}>
             <AddIcon sx={{display: 'flex', alignSelf: 'center'}} />
           </NavLink>
-        </Container>
+        </Box>
       </List>
     </ToTopLayout>
   );

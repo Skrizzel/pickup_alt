@@ -30,3 +30,9 @@ const AuthProvider = ({children}) => {
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
+export default AuthProvider;

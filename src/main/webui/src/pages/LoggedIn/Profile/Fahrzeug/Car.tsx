@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import {listItemStyle, styleForListItemContainer} from '../../../../shared/styles';
 import {useState} from 'react';
+import Box from '@mui/material/Box';
 
 type CarProps = {
   Autoname: string;
@@ -50,7 +51,15 @@ const Car = () => {
       <List sx={{paddingTop: '0px', marginTop: '1rem'}}>
         {Object.entries(autoData).map(([key, val], index) => (
           <Container sx={styleForListItemContainer} key={index}>
-            <ListItem sx={listItemStyle}>
+            <ListItem
+              sx={{
+                ...listItemStyle,
+                '*, *::before, *::after': {
+                  transition: 'none !important',
+                  animation: 'none !important',
+                },
+              }}
+            >
               <TextField
                 disabled={editStatus[key]} // Control the disabled state per field
                 id={`field-${key}`}
