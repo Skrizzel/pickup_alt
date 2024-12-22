@@ -75,6 +75,38 @@ public class Route extends PanacheEntity {
         this.car = car;
     }
 
+    public Double getLong_Start() {
+        return Long_Start;
+    }
+
+    public void setLong_Start(Double long_Start) {
+        Long_Start = long_Start;
+    }
+
+    public Double getLat_Start() {
+        return Lat_Start;
+    }
+
+    public void setLat_Start(Double lat_Start) {
+        Lat_Start = lat_Start;
+    }
+
+    public Double getLong_Dest() {
+        return Long_Dest;
+    }
+
+    public void setLong_Dest(Double long_Dest) {
+        Long_Dest = long_Dest;
+    }
+
+    public Double getLat_Dest() {
+        return Lat_Dest;
+    }
+
+    public void setLat_Dest(Double lat_Dest) {
+        Lat_Dest = lat_Dest;
+    }
+
     private LocalDateTime endTime;
     private float distance;
     @ManyToOne
@@ -85,6 +117,12 @@ public class Route extends PanacheEntity {
     private AppUser user;
     @ManyToOne
     private Car car;
+    private Double Long_Start;
+    private Double Lat_Start;
+    private Double Long_Dest;
+    private Double Lat_Dest;
+
+
 
     public Route() {
     }
