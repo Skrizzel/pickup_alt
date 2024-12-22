@@ -20,6 +20,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static io.quarkus.agroal.runtime.AgroalConnectionConfigurer.log;
 
 @ApplicationScoped
 @Path("/route")
@@ -88,7 +93,7 @@ public class RouteService {
         }
     }
 
-    @Path("routesold")
+    @Path("routesoldAndPropUseless")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
     public Response test() {
@@ -154,5 +159,34 @@ public class RouteService {
         } catch (Exception e){
             return Response.status(500).entity(e.getMessage()).build();
         }
+    }
+
+    @GET
+    @Path("/search")
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public Response search(
+            @QueryParam("LanSt") double LanStart,
+            @QueryParam("LongSt") double LongSt,
+            @QueryParam("LanDs") double LanDest,
+            @QueryParam("LongSt") double LangDest
+            ){
+        long startTime = System.nanoTime();
+        //TODO: Validate incoming json
+
+        List<Route> routes = Route.listAll();
+
+        log.info("");
+
+        long endTime = System.nanoTime();
+
+        // Calculate the duration in milliseconds
+        long duration = (endTime - startTime) / 1_000_000;
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("durationMillis", duration);
+        response.put("routes", routes);
+
+        return Response.ok(response).build();
     }
 }
