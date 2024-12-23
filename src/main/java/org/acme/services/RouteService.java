@@ -133,7 +133,7 @@ public class RouteService {
 
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    @Path("/route")
+    @Path("/distance")
     public Response getDistance(
             @QueryParam("startLat") Double startLat,
             @QueryParam("startLong") Double startLong,
@@ -153,8 +153,7 @@ public class RouteService {
                     GET().build();
 
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info(response.body().toString());
-            //throw new Exception("ahhhh");
+            log.debug(response.body().toString());
             return Response.ok(response.body().toString()).build();
         } catch (Exception e){
             return Response.status(500).entity(e.getMessage()).build();
@@ -175,7 +174,7 @@ public class RouteService {
 
         List<Route> routes = Route.listAll();
 
-        log.info("");
+        log.info("Cords: LanStart: " + LanStart + " LongSt: " + LongSt + " LanDest: " +LanDest + " LangDest: " + LangDest);
 
         long endTime = System.nanoTime();
 
@@ -187,5 +186,11 @@ public class RouteService {
         response.put("routes", routes);
 
         return Response.ok(response).build();
+    }
+
+    private Boolean isSuitiable(Route route, double LanStart, double LongSt, double LanDest, double LangDest){
+
+
+        return false;
     }
 }
