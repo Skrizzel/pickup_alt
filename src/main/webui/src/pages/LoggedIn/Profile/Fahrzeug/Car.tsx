@@ -9,6 +9,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import {listItemStyle, styleForListItemContainer} from '../../../../shared/styles';
 import {useState} from 'react';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
 
 type CarProps = {
   Autoname: string;
@@ -44,37 +46,45 @@ const Car = () => {
   };
 
   return (
-    <ToTopLayout>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-        <Avatar sx={{height: sizeOfAvatar, width: sizeOfAvatar}}>Me</Avatar>
-      </div>
-      <List sx={{paddingTop: '0px', marginTop: '1rem'}}>
-        {Object.entries(autoData).map(([key, val], index) => (
-          <Container sx={styleForListItemContainer} key={index}>
-            <ListItem
-              sx={{
-                ...listItemStyle,
-                '*, *::before, *::after': {
-                  transition: 'none !important',
-                  animation: 'none !important',
-                },
-              }}
-            >
-              <TextField
-                disabled={editStatus[key]} // Control the disabled state per field
-                id={`field-${key}`}
-                defaultValue={val}
-                label={key}
-                variant="standard"
-              />
-            </ListItem>
-            <IconButton onClick={() => onEdit(key)} aria-label={`edit-${key}`} sx={{padding: 0}}>
-              <EditIcon />
-            </IconButton>
-          </Container>
-        ))}
-      </List>
-    </ToTopLayout>
+    <>
+      <ToTopLayout>
+        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+          <Avatar sx={{height: sizeOfAvatar, width: sizeOfAvatar}}>Me</Avatar>
+        </div>
+        <List sx={{paddingTop: '0px', marginTop: '1rem'}}>
+          {Object.entries(autoData).map(([key, val], index) => (
+            <Container sx={styleForListItemContainer} key={index}>
+              <ListItem
+                sx={{
+                  ...listItemStyle,
+                  '*, *::before, *::after': {
+                    transition: 'none !important',
+                    animation: 'none !important',
+                  },
+                }}
+              >
+                <TextField
+                  disabled={editStatus[key]} // Control the disabled state per field
+                  id={`field-${key}`}
+                  defaultValue={val}
+                  label={key}
+                  variant="standard"
+                />
+              </ListItem>
+              <IconButton onClick={() => onEdit(key)} aria-label={`edit-${key}`} sx={{padding: 0}}>
+                <EditIcon />
+              </IconButton>
+            </Container>
+          ))}
+        </List>
+      </ToTopLayout>
+      <Button variant="contained" color="success" sx={{borderRadius: '50px', position: 'fixed', bottom: '70px', right: '24px', zIndex: '999'}}>
+        Bestätigen
+      </Button>
+      <Button variant="contained" color="error" sx={{borderRadius: '50px', position: 'fixed', bottom: '70px', left: '24px', zIndex: '999'}}>
+        Abbrechen
+      </Button>
+    </>
   );
 };
 export default Car;
