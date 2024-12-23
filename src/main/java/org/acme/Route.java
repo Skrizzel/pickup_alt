@@ -8,9 +8,6 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Route extends PanacheEntity {
-    private String routeName;
-    private LocalDateTime startTime;
-
     public String getRouteName() {
         return routeName;
     }
@@ -43,22 +40,6 @@ public class Route extends PanacheEntity {
         this.distance = distance;
     }
 
-    public Address getStartAddress() {
-        return startAddress;
-    }
-
-    public void setStartAddress(Address startAddress) {
-        this.startAddress = startAddress;
-    }
-
-    public Address getEndAddress() {
-        return endAddress;
-    }
-
-    public void setEndAddress(Address endAddress) {
-        this.endAddress = endAddress;
-    }
-
     public AppUser getUser() {
         return user;
     }
@@ -75,54 +56,51 @@ public class Route extends PanacheEntity {
         this.car = car;
     }
 
-    public Double getLong_Start() {
-        return Long_Start;
+    public Double getLatstart() {
+        return latstart;
     }
 
-    public void setLong_Start(Double long_Start) {
-        Long_Start = long_Start;
+    public void setLatstart(Double latstart) {
+        this.latstart = latstart;
     }
 
-    public Double getLat_Start() {
-        return Lat_Start;
+    public Double getLongstart() {
+        return longstart;
     }
 
-    public void setLat_Start(Double lat_Start) {
-        Lat_Start = lat_Start;
+    public void setLongstart(Double longstart) {
+        this.longstart = longstart;
     }
 
-    public Double getLong_Dest() {
-        return Long_Dest;
+    public Double getLatdest() {
+        return latdest;
     }
 
-    public void setLong_Dest(Double long_Dest) {
-        Long_Dest = long_Dest;
+    public void setLatdest(Double latdest) {
+        this.latdest = latdest;
     }
 
-    public Double getLat_Dest() {
-        return Lat_Dest;
+    public Double getLongdest() {
+        return longdest;
     }
 
-    public void setLat_Dest(Double lat_Dest) {
-        Lat_Dest = lat_Dest;
+    public void setLongdest(Double longdest) {
+        this.longdest = longdest;
     }
 
+    private String routeName;
+    private LocalDateTime startTime;
     private LocalDateTime endTime;
     private float distance;
-    @ManyToOne
-    private Address startAddress;
-    @ManyToOne
-    private Address endAddress;
+    private Double latstart;
+    private Double longstart;
+    private Double latdest;
+    private Double longdest;
+
     @ManyToOne
     private AppUser user;
     @ManyToOne
     private Car car;
-    private Double Long_Start;
-    private Double Lat_Start;
-    private Double Long_Dest;
-    private Double Lat_Dest;
-
-
 
     public Route() {
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -34,64 +35,63 @@ public class RouteService {
     @ConfigProperty(name = "mifahrapp.backend.routeServer")
     private String routeServer;
 
-
-    @Path("/create")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createRoute(JsonNode json) {
+    @Transactional
+    public Response createRoute(Route route) {
         try {
-            // Parse and validate inputs
-            String routeName = json.path("routeName").asText(null);
-            if (routeName == null || routeName.isEmpty()) {
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity("{\"error\": \"routeName is required\"}")
-                        .build();
+            //ToDo: Get the Route Length and endTime
+
+            // Fetch the user and car using their IDs
+            if (route.getUser() != null && route.getUser().id != null) {
+                AppUser user = AppUser.findById(route.getUser().id);
+                if (user == null) {
+                    throw new Exception("User not found");
+                }
+                route.setUser(user);
             }
 
-            float distance = (float) json.path("distance").asDouble(0);
-            String startTimeString = json.path("startTime").asText(null);
-            String endTimeString = json.path("endTime").asText(null);
-
-            LocalDateTime startTime = startTimeString != null ? LocalDateTime.parse(startTimeString) : null;
-            LocalDateTime endTime = endTimeString != null ? LocalDateTime.parse(endTimeString) : null;
-
-            // Create and populate Route object
-            Route newRoute = new Route();
-            newRoute.setRouteName(routeName);
-            newRoute.setDistance(distance);
-            newRoute.setStartTime(startTime);
-            newRoute.setEndTime(endTime);
-
-            // Assuming Address, AppUser, and Car objects are linked by their IDs
-            Long startAddressId = json.path("startAddressId").asLong(0);
-            Long endAddressId = json.path("endAddressId").asLong(0);
-            Long userId = json.path("userId").asLong(0);
-            Long carId = json.path("carId").asLong(0);
-
-            Address startAddress = Address.findById(startAddressId);
-            Address endAddress = Address.findById(endAddressId);
-            AppUser user = AppUser.findById(userId);
-            Car car = Car.findById(carId);
-
-            if (newRoute.getStartAddress() == null || newRoute.getEndAddress() == null || newRoute.getUser() == null) {
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity("{\"error\": \"Invalid IDs for startAddress, endAddress, or user.\"}")
-                        .build();
+            if (route.getCar() != null && route.getCar().id != null) {
+                Car car = Car.findById(route.getCar().id);
+                if (car == null) {
+                    throw new Exception("Car not found");
+                }
+                route.setCar(car);
             }
 
-            // Persist the new route
-            newRoute.persist();
+            // Persist the route
+            route.persist();
+            return Response.ok(route).build();
 
-            log.info("Route created successfully: {}", newRoute.getRouteName());
-            return Response.ok(newRoute).build();
         } catch (Exception e) {
             log.error("Error creating route", e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"error\": \"Failed to create route\"}")
+                    .entity("{\"error\": \"Failed to create route,\"," +
+                            "\"message\": \"" + e.getMessage() + "\"}")
                     .build();
         }
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRoute(@QueryParam("id") int id){
+        Route rt;
+        try {
+            rt = Route.findById(id);
+            if (rt == null){
+                throw new Exception("Route not found");
+            }
+        } catch (Exception e) {
+            log.error("Error creating route", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"error\": \"Failed or no Route with that id,\"," +
+                            "\"message\": \"" + e.getMessage() + "\"}")
+                    .build();
+        }
+        return Response.ok(rt).build();
+    }
+
 
     @Path("routesoldAndPropUseless")
     @Produces(MediaType.APPLICATION_JSON)
@@ -135,17 +135,17 @@ public class RouteService {
     @GET
     @Path("/route")
     public Response getDistance(
-            @QueryParam("startX") Double startX,
-            @QueryParam("startY") Double startY,
-            @QueryParam("endX") Double endX,
-            @QueryParam("endY") Double endY){
+            @QueryParam("startLat") Double startLat,
+            @QueryParam("startLong") Double startLong,
+            @QueryParam("endLat") Double endLat,
+            @QueryParam("endLong") Double endLong){
 
-        if (startX == null || startY == null || endX == null || endY == null){
+        if (startLat == null || startLong == null || endLat == null || endLong == null){
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("{\"error\": \"All parameters (startX, startY, endX, endY) are required.\"}")
                     .build();
         }
-        String url = String.format("%s/route/v1/driving/%s,%s;%s,%s?geometries=geojson", routeServer, startX, startY, endX, endY);
+        String url = String.format("%s/route/v1/driving/%s,%s;%s,%s?geometries=geojson", routeServer, startLat, startLong, endLat, endLong);
         log.info(url);
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpRequest request = HttpRequest.newBuilder().
@@ -164,7 +164,6 @@ public class RouteService {
     @GET
     @Path("/search")
     @Produces(MediaType.APPLICATION_JSON)
-
     public Response search(
             @QueryParam("LanSt") double LanStart,
             @QueryParam("LongSt") double LongSt,

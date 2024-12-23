@@ -20,44 +20,6 @@
               "icon": "lucide-file",
               "title": "HTTP-Routes for Frontend"
             }
-          },
-          {
-            "id": "aed136c8f47c68f1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Route.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Route"
-            }
-          },
-          {
-            "id": "4ec054258fcaeab6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Route Post.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Route Post"
-            }
-          },
-          {
-            "id": "ba2ce63ba63c1aa1",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
-            }
           }
         ]
       }
@@ -202,8 +164,10 @@
   "active": "0d92a365a5af68d4",
   "lastOpenFiles": [
     "Route.md",
-    "HTTP-Routes for Frontend.md",
     "Route Post.md",
+    "Route Get.md",
+    "HTTP-Routes for Frontend.md",
+    "2024-12-23.md",
     "Readme.md",
     "Welcome.md"
   ]
