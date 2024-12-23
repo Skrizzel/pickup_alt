@@ -8,8 +8,6 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import {listItemStyle, styleForListItemContainer} from '../../../../shared/styles';
 import {useState} from 'react';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 
 type CarProps = {

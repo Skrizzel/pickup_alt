@@ -16,6 +16,7 @@ const Profile = () => {
   const tesSettings = {
     Nutzername: 'Max Mustermann',
     'E-mail': 'Max.Mustermann@bube.com',
+    Telefonnummer: '012345678910',
     Passwort: '********',
     Fahrzeug: 'Subaru Legacy',
   };
