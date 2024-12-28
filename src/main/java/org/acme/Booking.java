@@ -1,11 +1,10 @@
-// Current Task:
-// fill attributes into empty tables
-// create Get and Set Methods vor database attributes
-
 package org.acme;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -14,44 +13,33 @@ import jakarta.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Path("/Booking")
-// Problem? The following annotation?
 @Entity
 public class Booking extends PanacheEntity {
-    private static final Logger log = LoggerFactory.getLogger(Booking.class);
-    // Is the next line necessary?
-    // private static final Logger log = LoggerFactory.getLogger(BookingBooking.class);
+    // Database attributes
+    // id attribute field should be automatically created
+    @ManyToOne
+    @JoinColumn(name = "idUser")
+    // Foreign key from AppUser
+    private AppUser user;
 
-    // Creating database
-    private String basePrice;
-    private String kilometerPrice;
+    @ManyToOne
+    @JoinColumn(name = "idRoute")
+    // Foreign key from Route
+    private Route route;
 
-    // Constructor
-    public Booking() {}
-
-    // Test function for creating a Path
-    @Path("/DolleFunktionPfad")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String DolleFunktion(){
-        return "Hallo";
+    public void setUser(AppUser user) {
+        this.user = user;
     }
 
-    @Path("/StandardPreisInfoText")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String setBasePrice() {
-        String StandardPreisInfoText = "Info: Der Standardpreis muss von jedem Mitfahrere gezahlt werden, unabhängig von der Kilometerpauschale.";
-        String TextStandardPreis = "Bitte geben Sie einen Standard Preis ein:";
-        return StandardPreisInfoText;
+    public Route getRoute() {
+        return route;
     }
 
-    @Path("/PreisJeKilometerInfoText")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String setKilometerPrice(){
-        String PreisJeKilometerInfoText = "Info: Der Preis je Kilometer muss von jedem Mitfahrere für die mitgefahrene Strecke gezahlt werden.";
-        String PreisJeKilometer = "Bitte geben Sie den Preis je Kilometer ein:";
-        return PreisJeKilometerInfoText ;
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public AppUser getUser() {
+        return user;
     }
 }
