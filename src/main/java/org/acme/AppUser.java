@@ -3,7 +3,9 @@ package org.acme;
 import jakarta.annotation.Nullable;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
+import jakarta.ws.rs.Path;
 
+@Path("user")
 @Entity
 public class AppUser extends PanacheEntity {
     private String userName;
@@ -21,22 +23,17 @@ public class AppUser extends PanacheEntity {
         this.image = image;
     }
 
+
     public AppUser() {
 
     }
 
-    public byte[] getSalt() {
-        return salt;
-    }
-
-    public void setSalt(byte[] salt) {
-        this.salt = salt;
-    }
-
+    @Path("getUserName")
     public String getUserName() {
         return userName;
     }
 
+    @Path("setUserName")
     public void setUserName(String userName) {
         this.userName = userName;
     }
